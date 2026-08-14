@@ -1,16 +1,25 @@
 'use client';
+interface PrimeiroComponente{
+  mensagem: string;
+  mensagemBotao: string;
+}
 
-export function PrimeiroComponente(){
+export const  PrimeiroComponente = ({mensagem, mensagemBotao}:PrimeiroComponente) =>{
 
-  function clique() { 
-    console.log('Você clicou no botão!');
-    alert('Você clicou no botão!');
+  //function clique() { 
+   // console.log('Você clicou no botão!');
+  //  alert('SOU EU, O TIRIRICA');
+//  }
+  const clique = () =>{
+    console.log('Você clicou no botão!')
+    alert(mensagemBotao);
   }
 
   return(
     <div> 
       <h1>Primeiro Componente</h1>
-      <button onClick={clique}>Clique aqui!</button>
+      <p>{mensagem}</p>
+      <button onClick={clique}>Sou um botão clica em mim!</button>
 
     </div>
   );
