@@ -1,17 +1,15 @@
-import Image from "next/image";
-import { PrimeiroComponente } from "./components/PrimeiroComponente";
+import { PrimeiroComponente } from './components/PrimeiroComponente';
 
 export default function Home() {
   return (
     <div>
       <main>
-        <h1>BINARIO GORDON</h1>
-        <PrimeiroComponente
-        mensagem="Clica no botão ali vai, vai ser legal."
-          mensagemBotao=" (｡ ●ω●｡)"
-        />
+        <h1>Welcome to Next.js!</h1>
+        <PrimeiroComponente mensagem="Olá, mundo!" />
+        <PrimeiroComponente  mesagemBotao="Segundo botão clicado!" />
 
       </main>
     </div>
-  );
+
+  )
 }

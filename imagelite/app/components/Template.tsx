@@ -1,36 +1,33 @@
 interface TemplateProps {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+} 
 
-export const Template: React.FC<TemplateProps> = (props: TemplateProps) =>{
-  return (
-    <>
-    // header
-
-    {props.children }
-
-    //footer
+export  const Template: React.FC<TemplateProps> = ({ children  }: TemplateProps) => {
+  return(
+    <> 
+      <Header />
+      {children}
+      <Footer />  
     </>
-
-  )
-}
+  );    
+} 
 
 const Header: React.FC = () => {
-  return (
-  <header className="bg-indigo-950 text-white py-3">
-    <div className="container mx-auto flex justify-between intems-center px-4">
-      <h1 className="text-3-1 font-bol">ImageLite</h1>
-    </div>
-  </header>
-  )
-}
+  return(
+    <header className="bg-red-900 text-white py-3">    
+      <div className="container mx-auto px-4 flex justify-between items-center px-4">
+      <h1>ImageLite</h1>
+      </div>
+    </header>
+  );
+} 
 
 const Footer: React.FC = () => {
-  return (
-    <footer className="bg-indigo-950 text-white py-4 mt-8">
-      <div className="container mx-auto text-center">
-        
-      </div>
+  return(
+    <footer className="bg-red-900 text-white py-3"> 
+      <div className="container mx-auto px-4 flex justify-between items-center px-4">
+      <h1>Developed by Lucas Alves</h1>
+      </div>   
     </footer>
-  )
-}
+  );
+} 
