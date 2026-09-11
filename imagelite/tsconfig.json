@@ -18,7 +18,7 @@
         "name": "next"
       }
     ],
-     "paths": {
+    "paths": {
       "@/*": ["./app/*"]
     }
   },
@@ -32,4 +32,3 @@
   ],
   "exclude": ["node_modules"]
 }
-

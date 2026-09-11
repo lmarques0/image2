@@ -10,5 +10,3 @@ export class ImageService {
 }
 // React Hook
 export const useImageService = () => new ImageService();
-
-export { Image };

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "App Image Lite",
-  description: "Exemplo de App 3º Ano EMI Informática",
+  description: "IFMT Campus Rondonópolis - ImageLite   (2026)",
 };
 
 export default function RootLayout({
