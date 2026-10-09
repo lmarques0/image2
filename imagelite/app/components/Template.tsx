@@ -1,18 +1,18 @@
 interface TemplateProps {
     children: React.ReactNode
 }
-export const Template: React.FC<TemplateProps> = ({children}: TemplateProps) => {
+export const Template: React.FC<TemplateProps> = ({ children }: TemplateProps) => {
     return (
         <>
-            <Header/>
-                {children}
-            <Footer/>
+            <Header />
+            {children}
+            <Footer />
         </>
     )
 }
 const Header: React.FC = () => {
-    return(
-        <header className="bg-black-950 text-white py-3" >
+    return (
+        <header className="bg-black-800 text-white py-3" >
             <div className="container mx-auto flex justify-between items-center px-4" >
                 <h1 className="text-3xl font-bol">ImageLite</h1>
             </div>
@@ -21,9 +21,9 @@ const Header: React.FC = () => {
 }
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-black-950 text-white py-4 mt-8" >
+        <footer className="bg-black-700 text-white py-4 mt-8" >
             <div className="container mx-auto text-center" >
-                Desenvolvido por Lucas Marques.
+                Desenvolvido por JakcASSbtw.
             </div>
         </footer>
     )

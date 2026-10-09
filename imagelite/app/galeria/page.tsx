@@ -1,4 +1,4 @@
- 'use client'
+'use client'
 
 //import { Template } from '../components/Template';
 //import { ImageCard } from '../components/Image';
@@ -6,7 +6,8 @@ import { Template, ImageCard, } from '@/components';
 import { ImageService, useImageService } from '@/resource/service';
 import { Image } from '@/resource/image';
 import { useState } from 'react';
-
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components';
 
 
 
@@ -17,6 +18,7 @@ export default function Galeria() {
   const [images, setImages] = useState<Image[]>([])
   const [query, setQuery] = useState<string>('')
   const [extension, setExtension] = useState<string>('')
+  const router = useRouter();
 
   async function searchImages() {
     const result = await useService.buscar(query, extension);
@@ -49,7 +51,7 @@ export default function Galeria() {
           <input type="text"
             onChange={(e) => setQuery(e.target.value)}
             className="border px-4 py-2 rounded-lg text-White-900" placeholder="Buscar imagens..." />
-          <select onChange={(e) => setExtension(e.target.value)} className="border px-4 py-2 rounded-lg text-White-900">
+          <select onChange={(e) => setExtension(e.target.value)} className="border px-4 py-2 rounded-lg text-White-900" >
             <option value="">All formats</option>
             <option value="JPG">JPG</option>
             <option value="PNG">PNG</option>
@@ -57,16 +59,24 @@ export default function Galeria() {
             <option value="GIF">GIF</option>
           </select>
           <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onClick={searchImages}>Search </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Add New </button>
+          <Button
+            type="button"
+            variant="danger"
+            onClick={() => router.push('/uploads')}
+          >
+            Add New
+          </Button>
         </div>
       </section>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
-      {renderImageCards()}
-</section>
-
-
+        {renderImageCards()}
+      </section>
     </Template>
 
   )
 }
+
+
+
+
