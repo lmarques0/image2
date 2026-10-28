@@ -1,6 +1,6 @@
 export class Image{
 
-    url?: string;
+    url!: string;
     name?: string;
     extension?: string;
     size?: string;
