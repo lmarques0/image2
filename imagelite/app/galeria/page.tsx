@@ -1,7 +1,6 @@
-
 'use client';
 
-import { Template, ImageCard, Button } from '@/components';
+import { Template, ImageCard } from '@/components';
 import { useImageService } from '@/resource/service';
 import { Image } from '@/resource/image';
 import { useState } from 'react';
@@ -29,9 +28,7 @@ export default function Galeria() {
       setImages(result);
     } catch (err) {
       console.error('Erro ao buscar imagens:', err);
-      setError(
-        'Não foi possível carregar as imagens. Verifique a conexão com a API.',
-      );
+      setError('Falha ao carregar imagens.');
     } finally {
       setLoading(false);
     }
@@ -39,14 +36,11 @@ export default function Galeria() {
 
   async function deleteImage(image: Image) {
     if (!image.url) {
-      setError('Não foi possível identificar a URL da imagem.');
+      setError('URL da imagem não identificada.');
       return;
     }
 
-    const confirmed = window.confirm(
-      `Tem certeza que deseja excluir a imagem "${image.name}"?`,
-    );
-
+    const confirmed = window.confirm(`Excluir "${image.name}"?`);
     if (!confirmed) return;
 
     setDeleting(image.url);
@@ -54,17 +48,11 @@ export default function Galeria() {
 
     try {
       await useService.excluir(image.url);
-
-      setImages((currentImages) =>
-        currentImages.filter((item) => item.url !== image.url),
-      );
+      setImages((current) => current.filter((item) => item.url !== image.url));
     } catch (err) {
       console.error('Erro ao excluir imagem:', err);
-
       setError(
-        err instanceof Error
-          ? err.message
-          : 'Não foi possível excluir a imagem. Tente novamente.',
+        err instanceof Error ? err.message : 'Falha ao excluir imagem.'
       );
     } finally {
       setDeleting(null);
@@ -73,8 +61,25 @@ export default function Galeria() {
 
   return (
     <Template>
-      <section className="my-5 flex flex-col items-center justify-center">
-        <div className="flex flex-wrap items-center justify-center gap-4 p-4">
+      <div className="mx-auto w-full max-w-6xl bg-white px-6 py-8 text-black">
+        
+        {/* Cabeçalho */}
+        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-black pb-6">
+          <h1 className="text-2xl font-bold uppercase tracking-tight">
+            Galeria
+          </h1>
+
+          <button
+            type="button"
+            onClick={() => router.push('/uploads')}
+            className="bg-black px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+          >
+            + Nova imagem
+          </button>
+        </header>
+
+        {/* Barra de Busca e Filtro */}
+        <section className="my-6 flex flex-col gap-3 sm:flex-row">
           <input
             type="text"
             value={query}
@@ -84,15 +89,15 @@ export default function Galeria() {
                 void searchImages();
               }
             }}
-            className="rounded-lg border px-4 py-2 text-gray-900"
-            placeholder="Buscar imagens..."
+            className="flex-1 border border-black bg-white px-4 py-2.5 text-sm text-black placeholder-neutral-400 focus:outline-none"
+            placeholder="Nome do arquivo..."
             aria-label="Buscar imagens"
           />
 
           <select
             value={extension}
             onChange={(e) => setExtension(e.target.value)}
-            className="rounded-lg border px-4 py-2 text-gray-900"
+            className="border border-black bg-white px-4 py-2.5 text-sm text-black focus:outline-none"
             aria-label="Filtrar por formato"
           >
             <option value="">Todos os formatos</option>
@@ -106,74 +111,69 @@ export default function Galeria() {
             type="button"
             disabled={loading}
             onClick={() => void searchImages()}
-            className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="border border-black bg-black px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? 'Buscando...' : 'Buscar'}
           </button>
-
-          <Button
-            type="button"
-            variant="danger"
-            onClick={() => router.push('/uploads')}
-          >
-            Adicionar nova
-          </Button>
-        </div>
-      </section>
-
-      {error && (
-        <div
-          role="alert"
-          className="mx-6 my-4 rounded-lg bg-red-100 p-3 text-red-700"
-        >
-          {error}
-        </div>
-      )}
-
-      {loading ? (
-        <div
-          className="flex flex-col items-center justify-center gap-3 py-12"
-          role="status"
-          aria-live="polite"
-        >
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500" />
-          <p className="text-gray-600">Carregando imagens...</p>
-        </div>
-      ) : (
-        <section className="grid grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {images.map((image) => (
-            <div
-              key={image.url}
-              className="flex flex-col gap-3 rounded-lg border p-4 shadow-sm"
-            >
-              <ImageCard
-                imageName={image.name}
-                imageUrl={image.url}
-                imageSize={image.size}
-                uploadDate={image.uploadDate}
-                extension={image.extension}
-              />
-
-              <Button
-                type="button"
-                variant="danger"
-                disabled={deleting !== null}
-                onClick={() => void deleteImage(image)}
-              >
-                {deleting === image.url
-                  ? 'Excluindo...'
-                  : 'Excluir imagem'}
-              </Button>
-            </div>
-          ))}
-
-          {searched && images.length === 0 && (
-            <p className="col-span-full py-8 text-center text-gray-500">
-              Nenhuma imagem encontrada.
-            </p>
-          )}
         </section>
-      )}
+
+        {/* Mensagem de Erro */}
+        {error && (
+          <div
+            role="alert"
+            className="mb-6 border border-black bg-neutral-100 px-4 py-3 text-sm font-medium text-black"
+          >
+            {error}
+          </div>
+        )}
+
+        {/* Loading */}
+        {loading ? (
+          <div
+            className="flex flex-col items-center justify-center gap-3 py-20"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-300 border-t-black" />
+            <span className="text-xs uppercase tracking-widest text-neutral-500">
+              Carregando
+            </span>
+          </div>
+        ) : (
+          /* Grid de Imagens */
+          <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {images.map((image) => (
+              <div
+                key={image.url}
+                className="flex flex-col justify-between border border-neutral-200 bg-white p-4 transition-colors hover:border-black"
+              >
+                <ImageCard
+                  imageName={image.name}
+                  imageUrl={image.url}
+                  imageSize={image.size}
+                  uploadDate={image.uploadDate}
+                  extension={image.extension}
+                />
+
+                <button
+                  type="button"
+                  disabled={deleting !== null}
+                  onClick={() => void deleteImage(image)}
+                  className="mt-4 w-full border border-neutral-300 bg-white py-2 text-xs font-medium uppercase tracking-wider text-neutral-600 transition-colors hover:border-black hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {deleting === image.url ? 'Excluindo...' : 'Excluir'}
+                </button>
+              </div>
+            ))}
+
+            {searched && images.length === 0 && (
+              <div className="col-span-full border border-neutral-200 py-16 text-center text-sm text-neutral-500">
+                Nenhum arquivo encontrado.
+              </div>
+            )}
+          </section>
+        )}
+      </div>
     </Template>
   );
 }
